@@ -37,51 +37,7 @@ It reproduces Figs. 4–7 of the paper.
 | **BER vs speed (Fig. 6)** | **BER, one path (Fig. 7)** |
 | ![](figures/fig6_ber_speed.png) | ![](figures/fig7_ber_one_path.png) |
 
-### Comparison with the paper
 
-Paper values are read approximately from its figures. Each cell gives paper / this repo.
-
-**NMSE, two paths (Fig. 4)**
-
-| Curve | 8 dB | 12 dB | 16 dB |
-|---|---|---|---|
-| Conventional, Ep/Es = 11 dB | 0.5 / 0.57 | – / 0.23 | 0.08 / 0.096 |
-| Conventional, Ep/Es = 20 dB | 0.065 / 0.078 | 0.031 / 0.035 | 0.016 / 0.019 |
-| Conventional, Ep/Es = 30 dB | 0.012 / 0.014 | 0.0085 / 0.0099 | 0.0065 / 0.0085 |
-| DNN, Ep/Es = 14 dB | 0.015 / 0.042 | 0.0072 / 0.014 | 0.0049 / 0.0095 |
-| DNN, Ep/Es = 23 dB | 0.005 / 0.0074 | 0.0037 / 0.0027 | 0.003 / 0.0018 |
-| DNN + LS gains, Ep/Es = 14 dB *(not in paper)* | – / 0.028 | – / 0.010 | – / 0.0054 |
-
-**BER, one path (Fig. 7)**
-
-| Curve | 8 dB | 10 dB | 12 dB |
-|---|---|---|---|
-| Perfect CSI | 6.0e-3 / 6.0e-3 | 8.0e-4 / 7.7e-4 | 4.0e-5 / 3.6e-5 |
-| Conventional, Ep/Es = 40 dB | 7.0e-3 / 6.7e-3 | 1.2e-3 / 1.0e-3 | 1.4e-4 / 8.5e-5 |
-| DNN, Ep/Es = 14 dB | 9.5e-3 / 8.8e-3 | 1.4e-3 / 1.2e-3 | 1.4e-4 / 1.1e-4 |
-| DNN, Ep/Es = 23 dB | 7.0e-3 / 6.4e-3 | 1.1e-3 / 8.3e-4 | 8.5e-5 / 4.2e-5 |
-
-**BER, two paths (Fig. 5)**
-
-| Curve | 8 dB | 12 dB | 16 dB |
-|---|---|---|---|
-| Perfect CSI | 6.5e-3 / 1.3e-2 | 5.0e-4 / 2.5e-4 | 2.5e-5 / 1.0e-6 |
-| Conventional, Ep/Es = 30 dB | 8.0e-3 / 1.6e-2 | 7.0e-4 / 5.5e-4 | 6.5e-5 / 1.3e-5 |
-| DNN, Ep/Es = 14 dB | 1.0e-2 / 2.7e-2 | 8.5e-4 / 8.9e-4 | 6.5e-5 / 9.1e-5 |
-| DNN, Ep/Es = 23 dB | 7.5e-3 / 1.5e-2 | 6.5e-4 / 3.3e-4 | 3.2e-5 / 3.2e-6 |
-
-**Reproduced**
-- **Fig. 7 (one path):** perfect CSI matches to two digits. The conventional and DNN curves are within about 0.8–1.1× of the paper, except some 12 dB points where ours is lower.
-- **Conventional estimator (Fig. 4):** within 1.1–1.3× of the paper at every point.
-- **DNN at Ep/Es = 23 dB:** matches or beats the paper's NMSE and is close to perfect CSI in BER.
-- **Pilot power:** the DNN reaches a given accuracy at much lower pilot power than the conventional method, and raising the conventional pilot from 30 to 40 dB gives almost nothing.
-- **Speed:** one network, trained up to 1000 km/h, works at both 500 and 1000 km/h (Fig. 6).
-
-**Not reproduced**
-- **DNN at Ep/Es = 14 dB:** about 2–3× higher NMSE than the paper. The error comes mainly from the gain estimates. With the true delays and Dopplers, least-squares gains reach NMSE 0.013 / 0.005 / 0.002 at 8 / 12 / 16 dB. The paper's DNN is close to that limit; our network is not. Re-estimating the gains by least squares from the DNN's delays and Dopplers (*DNN + LS*, our addition, not in the paper) reaches the paper's value at 16 dB.
-- **BER of the DNN at Ep/Es = 14 dB (Fig. 5):** levels off near 1e-4 above 14 dB. Almost all errors come from a few frames where two equally strong paths and a small Doppler error make the MRC detector diverge.
-- **Two-path perfect-CSI curve (Fig. 5):** ours is about 2× worse at 8 dB and much better at 16 dB. Every two-path BER curve inherits this shift. The paper does not give enough channel or detector detail to match this curve; the one-path curve, which depends only on the channel, does match.
-- **Not implemented:** the OMP, data-aided pilot and two-pilot baselines.
 
 ### Assumptions (not specified in the paper)
 - **Channel (calibrated to the paper's figures):**
